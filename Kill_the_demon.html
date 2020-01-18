@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body style="background-color:lightgray">
+<h3 id="scoreboard" style="color:blue"></h3>
+<h2 style="text-align:center;color:RED">KILL THE DEMON</h2>
+<script>
+	let score=0 ;
+	let demonAlive=false ;
+	let called=true ;
+	function setStatusDead(){
+		demonAlive=false ;
+	};
+	
+	function destroyDemon(x){
+		if(x==false){
+			called=true ;
+		}
+		if(demonAlive==true){
+			var elem = document.getElementById("coolBOYdemon551") ;
+			elem.parentNode.removeChild(elem);
+			setTimeout(setStatusDead,1000);
+			if(x==true){
+				score=score+5 ;
+			}
+		}
+	};
+	
+	function spawnDemon(){
+		demonAlive=true ;
+		let demon = document.createElement("IMG") ;
+		demon.setAttribute("src", "demons.png");
+		demon.setAttribute("id", "coolBOYdemon551");
+		demon.setAttribute("width", "100");
+		demon.setAttribute("height", "100");
+		let top=500*Math.random() ;
+		top=top|0 ;
+		let left=1000*Math.random() ;
+		left = left|0 ;
+		demon.style.marginTop = top+"px" ;
+		demon.style.marginLeft = left+"px" ;
+		document.body.appendChild(demon);
+		demon.onclick = function() {destroyDemon(true);};
+		//demon.addEventListener('click',function(){destroyDemon(true);});
+	};
+	
+	function demonArchitect(){
+		var scorebox= document.getElementById("scoreboard") ;
+		scorebox.innerHTML = "SCORE: "+score ;
+		if(demonAlive==false && called==true){
+			called=false ;
+			spawnDemon() ;
+			setTimeout(function(){destroyDemon(false);},1500);
+		}
+	};
+	
+	function update(){
+		window.requestAnimationFrame( update );		
+		demonArchitect() ;
+	}
+	update();
+</script>
+</body>
+</html>
